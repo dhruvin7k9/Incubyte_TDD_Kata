@@ -29,7 +29,7 @@ public class StringCalculator
                 if (number < 0) {
                     negativeNumbers += number + ",";
                 }
-                else{
+                else if (number <= 1000){
                     sum += number;
                 }
             }
