@@ -19,11 +19,24 @@ public class StringCalculator
                 delimiter = numbers.substring(2, indexOfNewLine);
                 numbers = numbers.substring(indexOfNewLine + 1);
             }
+
             String[] numbersArray = numbers.split(delimiter);
-            int sum = 0;
-            for (String number : numbersArray) 
+            int sum = 0, i;
+            String negativeNumbers = "";
+            for (i = 0; i < numbersArray.length; i++) 
             {
-                sum += Integer.parseInt(number);
+                int number = Integer.parseInt(numbersArray[i]);
+                if (number < 0) {
+                    negativeNumbers += number + ",";
+                }
+                else{
+                    sum += number;
+                }
+            }
+            
+            if (!negativeNumbers.isEmpty()) 
+            {
+                throw new IllegalArgumentException("Negatives not allowed: [" + negativeNumbers.substring(0, negativeNumbers.length() - 1) + "]");
             }
             return sum;
         }
