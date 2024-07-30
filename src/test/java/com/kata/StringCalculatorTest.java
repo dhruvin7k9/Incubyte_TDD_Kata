@@ -18,4 +18,11 @@ public class StringCalculatorTest
         StringCalculator stringCalculator = new StringCalculator();
         assertEquals( 1,  stringCalculator.add("1"));
     }
+
+    @Test
+    public void testCommaSeparatedNumbers()
+    {
+        StringCalculator stringCalculator = new StringCalculator();
+        assertEquals( 13,  stringCalculator.add("1,2,10"));
+    }
 }
