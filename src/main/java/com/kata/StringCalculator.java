@@ -10,7 +10,8 @@ public class StringCalculator
         } 
         else 
         {
-            String[] numbersArray = numbers.split(",");
+            String delimiter = "[,|\n]";
+            String[] numbersArray = numbers.split(delimiter);
             int sum = 0;
             for (String number : numbersArray) 
             {

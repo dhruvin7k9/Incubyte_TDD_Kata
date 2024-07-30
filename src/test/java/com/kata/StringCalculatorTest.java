@@ -25,4 +25,11 @@ public class StringCalculatorTest
         StringCalculator stringCalculator = new StringCalculator();
         assertEquals( 13,  stringCalculator.add("1,2,10"));
     }
+
+    @Test
+    public void testNewLineAndCommaSeparatedNumbers()
+    {
+        StringCalculator stringCalculator = new StringCalculator();
+        assertEquals( 6,  stringCalculator.add("1\n2,3"));
+    }
 }
