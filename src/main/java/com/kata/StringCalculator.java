@@ -2,16 +2,13 @@ package com.kata;
 
 import java.util.ArrayList;
 
-public class StringCalculator 
-{
+public class StringCalculator {
     private String findDelimiters(String numbers) {
         String delimiter = "[,";
-        if (numbers.startsWith("//")) 
-        {
+        if (numbers.startsWith("//")) {
             int indexOfNewLine = numbers.indexOf("\n");
             String[] delimiterStrings = numbers.substring(2, indexOfNewLine).split("\\[|\\]");
-            for (String s : delimiterStrings) 
-            {
+            for (String s : delimiterStrings) {
                 if (!s.isEmpty())
                     delimiter += "|" + s;
             }
@@ -21,26 +18,24 @@ public class StringCalculator
         return delimiter;
     }
 
-    private String[] filterNumberString (String numbers, String delimiters) {
+    private String[] filterNumberString(String numbers, String delimiters) {
         String[] numberStringTokens = {};
 
-        if (numbers.startsWith("//")) 
-        {
+        if (numbers.startsWith("//")) {
             int indexOfNewLine = numbers.indexOf("\n");
-            numbers = numbers.substring(indexOfNewLine +1);
+            numbers = numbers.substring(indexOfNewLine + 1);
         }
         numberStringTokens = numbers.split(delimiters);
         return numberStringTokens;
     }
 
-    private ArrayList<Integer> parseIntFromStringTokens (String[] numberStringTokens) {
+    private ArrayList<Integer> parseIntFromStringTokens(String[] numberStringTokens) {
         ArrayList<Integer> numbersArray = new ArrayList<Integer>();
 
-        for (int i = 0; i < numberStringTokens.length; i++) 
-        {
+        for (int i = 0; i < numberStringTokens.length; i++) {
             if (numberStringTokens[i].isEmpty())
                 continue;
-                
+
             int number = Integer.parseInt(numberStringTokens[i]);
             numbersArray.add(number);
         }
@@ -48,34 +43,41 @@ public class StringCalculator
         return numbersArray;
     }
 
-    public int add(String numbers) 
-    {
-        if (numbers.isEmpty()) 
-        {
+    private Boolean checkForNegativeNumbers(ArrayList<Integer> numbersArray) {
+        Boolean isAnyNegative = false;
+        
+        String negativeNumbers = "";
+        for (int number : numbersArray) {
+            if (number < 0) {
+                negativeNumbers += number + ",";
+            }
+        }
+
+        if (!negativeNumbers.isEmpty()) {
+            throw new IllegalArgumentException(
+                    "Negatives not allowed: [" + negativeNumbers.substring(0, negativeNumbers.length() - 1) + "]");
+        }
+        return isAnyNegative;
+    }
+
+    public int add(String numbers) {
+        if (numbers.isEmpty()) {
             return 0;
-        } 
-        else 
-        {
+        } else {
             String delimiters = findDelimiters(numbers);
             String[] numberStringTokens = filterNumberString(numbers, delimiters);
             ArrayList<Integer> numbersArray = parseIntFromStringTokens(numberStringTokens);
+            Boolean isAnyNegative = checkForNegativeNumbers(numbersArray);
 
             int sum = 0;
-            String negativeNumbers = "";
-            for (int number : numbersArray) 
-            {
-                if (number < 0) {
-                    negativeNumbers += number + ",";
-                }
-                else if (number <= 1000){
-                    sum += number;
+            if (isAnyNegative.equals(false)) {
+                for (int number : numbersArray) {
+                    if (number <= 1000) {
+                        sum += number;
+                    }
                 }
             }
-            
-            if (!negativeNumbers.isEmpty()) 
-            {
-                throw new IllegalArgumentException("Negatives not allowed: [" + negativeNumbers.substring(0, negativeNumbers.length() - 1) + "]");
-            }
+
             return sum;
         }
     }
