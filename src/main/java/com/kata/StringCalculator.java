@@ -60,6 +60,16 @@ public class StringCalculator {
         return isAnyNegative;
     }
 
+    private ArrayList<Integer> ignoreNumGreaterThan1000(ArrayList<Integer> numbersArray) {
+        ArrayList<Integer> numGreaterThan1000 = new ArrayList<Integer>();
+        for (int number : numbersArray) {
+            if (number <= 1000) {
+                numGreaterThan1000.add(number);
+            }
+        }
+        return numGreaterThan1000;
+    }
+
     public int add(String numbers) {
         if (numbers.isEmpty()) {
             return 0;
@@ -71,10 +81,9 @@ public class StringCalculator {
 
             int sum = 0;
             if (isAnyNegative.equals(false)) {
+                numbersArray = ignoreNumGreaterThan1000(numbersArray);
                 for (int number : numbersArray) {
-                    if (number <= 1000) {
-                        sum += number;
-                    }
+                    sum += number;
                 }
             }
 
