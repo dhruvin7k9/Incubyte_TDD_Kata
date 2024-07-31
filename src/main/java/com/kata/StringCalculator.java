@@ -1,5 +1,7 @@
 package com.kata;
 
+import java.util.ArrayList;
+
 public class StringCalculator 
 {
     private String findDelimiters(String numbers) {
@@ -31,6 +33,21 @@ public class StringCalculator
         return numberStringTokens;
     }
 
+    private ArrayList<Integer> parseIntFromStringTokens (String[] numberStringTokens) {
+        ArrayList<Integer> numbersArray = new ArrayList<Integer>();
+
+        for (int i = 0; i < numberStringTokens.length; i++) 
+        {
+            if (numberStringTokens[i].isEmpty())
+                continue;
+                
+            int number = Integer.parseInt(numberStringTokens[i]);
+            numbersArray.add(number);
+        }
+
+        return numbersArray;
+    }
+
     public int add(String numbers) 
     {
         if (numbers.isEmpty()) 
@@ -40,17 +57,13 @@ public class StringCalculator
         else 
         {
             String delimiters = findDelimiters(numbers);
-            String[] numbersArray = filterNumberString(numbers, delimiters);
-            
+            String[] numberStringTokens = filterNumberString(numbers, delimiters);
+            ArrayList<Integer> numbersArray = parseIntFromStringTokens(numberStringTokens);
 
-            int sum = 0, i;
+            int sum = 0;
             String negativeNumbers = "";
-            for (i = 0; i < numbersArray.length; i++) 
+            for (int number : numbersArray) 
             {
-                if (numbersArray[i].isEmpty())
-                    continue;
-                
-                int number = Integer.parseInt(numbersArray[i]);
                 if (number < 0) {
                     negativeNumbers += number + ",";
                 }
