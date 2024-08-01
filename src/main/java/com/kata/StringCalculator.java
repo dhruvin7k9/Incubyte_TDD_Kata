@@ -1,6 +1,7 @@
 package com.kata;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class StringCalculator {
     private String findDelimiters(String numbers) {
@@ -43,9 +44,7 @@ public class StringCalculator {
         return numbersArray;
     }
 
-    private Boolean checkForNegativeNumbers(ArrayList<Integer> numbersArray) {
-        Boolean isAnyNegative = false;
-        
+    private void checkForNegativeNumbers(ArrayList<Integer> numbersArray) {
         String negativeNumbers = "";
         for (int number : numbersArray) {
             if (number < 0) {
@@ -57,7 +56,6 @@ public class StringCalculator {
             throw new IllegalArgumentException(
                     "Negatives not allowed: [" + negativeNumbers.substring(0, negativeNumbers.length() - 1) + "]");
         }
-        return isAnyNegative;
     }
 
     private ArrayList<Integer> ignoreNumGreaterThan1000(ArrayList<Integer> numbersArray) {
@@ -70,6 +68,15 @@ public class StringCalculator {
         return numGreaterThan1000;
     }
 
+    private ArrayList<Integer> ignoreDuplicateNums(ArrayList<Integer> numbersArray) {
+        ArrayList<Integer> uniqueNumsArray = new ArrayList<Integer>();
+        HashSet<Integer> uniqueNumsSet = new HashSet<>();
+        uniqueNumsSet.addAll(numbersArray);
+
+        uniqueNumsArray.addAll(uniqueNumsSet);
+        return uniqueNumsArray;
+    }
+
     public int add(String numbers) {
         if (numbers.isEmpty()) {
             return 0;
@@ -77,14 +84,14 @@ public class StringCalculator {
             String delimiters = findDelimiters(numbers);
             String[] numberStringTokens = filterNumberString(numbers, delimiters);
             ArrayList<Integer> numbersArray = parseIntFromStringTokens(numberStringTokens);
-            Boolean isAnyNegative = checkForNegativeNumbers(numbersArray);
+            checkForNegativeNumbers(numbersArray);
 
             int sum = 0;
-            if (isAnyNegative.equals(false)) {
-                numbersArray = ignoreNumGreaterThan1000(numbersArray);
-                for (int number : numbersArray) {
-                    sum += number;
-                }
+
+            numbersArray = ignoreNumGreaterThan1000(numbersArray);
+            numbersArray = ignoreDuplicateNums(numbersArray);
+            for (int number : numbersArray) {
+                sum += number;
             }
 
             return sum;
